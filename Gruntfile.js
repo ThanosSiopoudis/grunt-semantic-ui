@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             all: {
                 options: {
                     config: 'test/fixtures/config.json',
-                    dest: 'test/fixtures/public/css'
+                    dest: 'test/fixtures/public/css/'
                 }
             }
         }

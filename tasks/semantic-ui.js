@@ -52,19 +52,17 @@ module.exports = function(grunt) {
             grunt.verbose.warn('Destination not written because no destination path was provided.');
         }
 
-        if (fs.existsSync(this.dest)) {
-            // Start the grunt-contrib-less task
-            var property = 'less.semantic.files';
-            var value = {
-                files: getSemanticFiles('bower_components/semantic/src/definitions/', this.dest, config)
-            };
-            grunt.config(property, value);
-            grunt.config('less.semantic.options', { cleancss: false });
-            grunt.log.writeln('Compiling less files...');
-            grunt.task.run('less:semantic');
-        }
+        // Start the grunt-contrib-less task
+        var property = 'less.semantic';
+        var value = {
+            files: getSemanticFiles('bower_components/semantic/src/definitions/', options.dest, config)
+        };
+        grunt.config(property, value);
+        grunt.config('less.semantic.options', { cleancss: false });
+        grunt.log.writeln('Compiling less files...');
+        grunt.task.run('less:semantic');
 
-
+        
     });
 
     var getSemanticFiles = function(srcDir, outputDir, config) {
