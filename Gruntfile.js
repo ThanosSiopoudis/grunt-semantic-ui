@@ -14,5 +14,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('default', ['semantic-ui']);
+    grunt.registerTask('test', ['semantic-ui']);
     grunt.loadTasks('tasks');
 };
