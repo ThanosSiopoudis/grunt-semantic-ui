@@ -1,0 +1,36 @@
+{
+    "globals": [
+        "reset",
+        "site"
+    ],
+    "elements": [
+        "button",
+        "container",
+        "divider",
+        "header",
+        "icon",
+        "image",
+        "input",
+        "label",
+        "loader",
+        "segment"
+    ],
+    "collections": [
+        "breadcrumb",
+        "form",
+        "grid",
+        "menu",
+        "message",
+        "table"
+    ],
+    "views": [
+        "card"
+    ],
+    "modules": [
+        "sidebar",
+        "dimmer",
+        "dropdown",
+        "transition",
+        "modal"
+    ]
+}
