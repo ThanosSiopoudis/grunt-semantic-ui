@@ -1,0 +1,19 @@
+{
+  "name": "grunt-semantic-ui",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ThanosSiopoudis/grunt-semantic-ui",
+  "authors": [
+    "Thanos Siopoudis <thanos.siopoudis@matchesfashion.com>"
+  ],
+  "description": "A grunt task to help integrate Semantic UI to your project",
+  "main": "test/fixtures/server.js",
+  "keywords": [
+    "gruntplugin",
+    "semantic-ui",
+    "semantic"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "semantic": "semantic-ui#~2.1.2"
+  }
+}
