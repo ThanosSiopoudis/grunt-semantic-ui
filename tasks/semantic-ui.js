@@ -13,7 +13,6 @@ var async = require('async');
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('semantic-ui', 'Helps setup semantic-ui in your project', function() {
-        debugger;
         var done = this.async(),
             options = this.options(),
             config;
@@ -57,7 +56,7 @@ module.exports = function(grunt) {
         // Start the grunt-contrib-less task
         var semanticFilePaths = getSemanticFiles('bower_components/semantic/src/definitions/', options.dest, config);
         var compiled = [];
-        var dest = options.dest + 'semantic-ui.css';
+        var dest = options.dest + 'css/semantic-ui.css';
         async.concatSeries(semanticFilePaths, function(f, nextFile) {
             var src = f.src;
 
@@ -90,6 +89,26 @@ module.exports = function(grunt) {
                 grunt.log.writeln('File ' + dest + ' created.');
             }
 
+            // Now, copy over the js file and the assets
+            // then we should be done
+            var jsModules = getSemanticModules('bower_components/semantic/src/definitions/', config);
+            var compiledJs = [];
+            jsModules.forEach(function(mod) {
+                compiledJs.push(grunt.file.read(mod));
+            });
+            var allJs = compiledJs.join(grunt.util.normalizelf(grunt.util.linefeed));
+            grunt.file.write(options.dest + 'scripts/semantic.js', allJs);
+            grunt.log.writeln('File ' + options.dest + 'scripts/semantic.js Created');
+
+            // Assets
+            // TODO: copy over assets from all used (or option-defined) themes
+            var themeAssets = grunt.file.expandMapping('**/*.*', options.dest + 'themes/default/assets/', {
+                cwd: 'bower_components/semantic/src/themes/default/assets'
+            });
+            themeAssets.forEach(function(file) {
+                grunt.file.copy(file.src[0], file.dest);
+            });
+
             done();
         });
     });
@@ -98,13 +117,28 @@ module.exports = function(grunt) {
         var files = [];
         var getSemanticFilePath = function(ele) {
             var item = {
-                src: srcDir + type + '/' + ele + '.less',
-                dest: outputDir + type + '.' + ele + '.output'
+                src: srcDir + type + '/' + ele + '.less'
             };
             return files.push(item);
         };
 
         for (var type in config) {
+            config[type].forEach(getSemanticFilePath);
+        }
+        return files;
+    };
+
+    var getSemanticModules = function(srcDir, config) {
+        var files = [];
+        var srcDir = 'bower_components/semantic/src/definitions/';
+        var getSemanticFilePath = function(ele) {
+            return files.push(srcDir + type + '/' + ele + '.js');
+        };
+
+        for (var type in config) {
+            if (type !== 'modules') {
+                continue;
+            }
             config[type].forEach(getSemanticFilePath);
         }
         return files;
