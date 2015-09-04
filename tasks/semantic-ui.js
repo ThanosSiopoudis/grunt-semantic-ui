@@ -8,10 +8,8 @@
 
 'use strict';
 
-var fs = require('fs');
 var less = require('less');
 var async = require('async');
-var _ = require('lodash');
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('semantic-ui', 'Helps setup semantic-ui in your project', function() {
@@ -22,8 +20,8 @@ module.exports = function(grunt) {
 
         if (options.config) {
             if (typeof options.config === 'string') {
-                if (fs.existsSync(options.config)) {
-                    config = JSON.parse(fs.readFileSync(options.config));
+                if (grunt.file.exists(options.config)) {
+                    config = grunt.file.readJSON(options.config);
                 }
                 else {
                     grunt.fail.warn('The Semantic-UI configuration file does not exist.');
@@ -40,8 +38,8 @@ module.exports = function(grunt) {
         }
 
         if (this.theme && this.theme.length) {
-            if (fs.existsSync(this.theme)) {
-                fs.createReadStream(this.theme).pipe(fs.createWriteStream('bower_components/semantic/src/theme.config'));
+            if (grunt.file.exists(this.theme)) {
+                grunt.file.copy(this.theme, 'bower_components/semantic/src/theme.config');
             }
             else {
                 grunt.verbose.warn('Theme file not found, falling back to bundled one.');
@@ -49,7 +47,7 @@ module.exports = function(grunt) {
         }
         else {
             // Copy our bundled one
-            fs.createReadStream('semantic-theme.config').pipe(fs.createWriteStream('bower_components/semantic/src/theme.config'));
+            grunt.file.copy('semantic-theme.config', 'bower_components/semantic/src/theme.config');
         }
 
         if (!options.dest || options.dest.length < 1) {
@@ -63,13 +61,13 @@ module.exports = function(grunt) {
         async.concatSeries(semanticFilePaths, function(f, nextFile) {
             var src = f.src;
 
-            if (!fs.existsSync(src)) {
+            if (!grunt.file.exists(src)) {
                 grunt.log.warn('Source file "' + f.src + '" not found.');
             }
 
             var options = {filename: src};
             var sourceCode = grunt.file.read(src);
-            grunt.log.write('Compiling "' + src + '" ...');
+            grunt.log.write('Compiling "' + src + '"...');
             less.render(sourceCode, options)
                 .then(function(output) {
                     compiled.push(output.css);
