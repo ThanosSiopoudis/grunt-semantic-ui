@@ -31,6 +31,7 @@
     "bower": "^1.5.2",
     "grunt": "^0.4.5",
     "less": "^2.5.1",
+    "lodash": "^3.10.1",
     "matchdep": "^0.3.0"
   },
   "dependencies": {}

@@ -6,9 +6,13 @@ module.exports = function(grunt) {
         'semantic-ui': {
             all: {
                 options: {
-                    config: 'test/fixtures/config.json',
+                    config: 'test/config.json',
                     dest: 'test/fixtures/public/css/'
-                }
+                },
+                files: [
+                    { src: 'somesource', dest: 'somedest' },
+                    { src: 'someOthersource', dest: 'someOtherdest' }
+                ]
             }
         }
     });

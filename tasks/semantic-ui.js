@@ -9,11 +9,15 @@
 'use strict';
 
 var fs = require('fs');
+var less = require('less');
+var async = require('async');
+var _ = require('lodash');
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('semantic-ui', 'Helps setup semantic-ui in your project', function() {
         debugger;
-        var options = this.options(),
+        var done = this.async(),
+            options = this.options(),
             config;
 
         if (options.config) {
@@ -53,22 +57,53 @@ module.exports = function(grunt) {
         }
 
         // Start the grunt-contrib-less task
-        var property = 'less.semantic';
-        var value = {
-            files: getSemanticFiles('bower_components/semantic/src/definitions/', options.dest, config)
-        };
-        grunt.config(property, value);
-        grunt.config('less.semantic.options', { cleancss: false });
-        grunt.log.writeln('Compiling less files...');
-        grunt.task.run('less:semantic');
+        var semanticFilePaths = getSemanticFiles('bower_components/semantic/src/definitions/', options.dest, config);
+        var compiled = [];
+        var dest = options.dest + 'semantic-ui.css';
+        async.concatSeries(semanticFilePaths, function(f, nextFile) {
+            var src = f.src;
 
-        
+            if (!fs.existsSync(src)) {
+                grunt.log.warn('Source file "' + f.src + '" not found.');
+            }
+
+            var options = {filename: src};
+            var sourceCode = grunt.file.read(src);
+            grunt.log.write('Compiling "' + src + '" ...');
+            less.render(sourceCode, options)
+                .then(function(output) {
+                    compiled.push(output.css);
+                    grunt.log.write('done!');
+                    grunt.log.writeln();
+                    process.nextTick(nextFile);
+                },
+                function(err) {
+                    nextFile(err);
+                }
+            );
+
+        }, function() {
+            if (compiled.length < 1) {
+                grunt.log.warn('Destination "' + dest + '" not written becaused the compiled files were empty.');
+            }
+            else {
+                var allCss = compiled.join(grunt.util.normalizelf(grunt.util.linefeed));
+                grunt.file.write(dest, allCss);
+                grunt.log.writeln('File ' + dest + ' created.');
+            }
+
+            done();
+        });
     });
 
     var getSemanticFiles = function(srcDir, outputDir, config) {
-        var files = {};
+        var files = [];
         var getSemanticFilePath = function(ele) {
-            return files[outputDir + type + '.' + ele + '.output'] = [srcDir + type + '/' + ele + '.less'];
+            var item = {
+                src: srcDir + type + '/' + ele + '.less',
+                dest: outputDir + type + '.' + ele + '.output'
+            };
+            return files.push(item);
         };
 
         for (var type in config) {
