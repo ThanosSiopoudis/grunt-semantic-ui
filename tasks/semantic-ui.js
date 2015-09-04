@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 
         if (this.theme && this.theme.length) {
             if (grunt.file.exists(this.theme)) {
-                grunt.file.copy(this.theme, 'bower_components/semantic/src/theme.config');
+                grunt.file.copy(this.theme, __dirname + '/../bower_components/semantic/src/theme.config');
             }
             else {
                 grunt.verbose.warn('Theme file not found, falling back to bundled one.');
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         }
         else {
             // Copy our bundled one
-            grunt.file.copy('semantic-theme.config', 'bower_components/semantic/src/theme.config');
+            grunt.file.copy('semantic-theme.config', __dirname + '/../bower_components/semantic/src/theme.config');
         }
 
         if (!options.dest || options.dest.length < 1) {
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
 
         // Start the grunt-contrib-less task
-        var semanticFilePaths = getSemanticFiles('bower_components/semantic/src/definitions/', options.dest, config);
+        var semanticFilePaths = getSemanticFiles(__dirname + '/../bower_components/semantic/src/definitions/', options.dest, config);
         var compiled = [];
         var dest = options.dest + 'css/semantic-ui.css';
         async.concatSeries(semanticFilePaths, function(f, nextFile) {
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 
             // Now, copy over the js file and the assets
             // then we should be done
-            var jsModules = getSemanticModules('bower_components/semantic/src/definitions/', config);
+            var jsModules = getSemanticModules(__dirname + '/../bower_components/semantic/src/definitions/', config);
             var compiledJs = [];
             jsModules.forEach(function(mod) {
                 compiledJs.push(grunt.file.read(mod));
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             // Assets
             // TODO: copy over assets from all used (or option-defined) themes
             var themeAssets = grunt.file.expandMapping('**/*.*', options.dest + 'themes/default/assets/', {
-                cwd: 'bower_components/semantic/src/themes/default/assets'
+                cwd: __dirname + '/../bower_components/semantic/src/themes/default/assets'
             });
             themeAssets.forEach(function(file) {
                 grunt.file.copy(file.src[0], file.dest);
@@ -130,7 +130,7 @@ module.exports = function(grunt) {
 
     var getSemanticModules = function(srcDir, config) {
         var files = [];
-        var srcDir = 'bower_components/semantic/src/definitions/';
+        var srcDir = __dirname + '/../bower_components/semantic/src/definitions/';
         var getSemanticFilePath = function(ele) {
             return files.push(srcDir + type + '/' + ele + '.js');
         };
