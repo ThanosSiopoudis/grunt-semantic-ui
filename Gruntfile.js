@@ -8,11 +8,7 @@ module.exports = function(grunt) {
                 options: {
                     config: 'test/config.json',
                     dest: 'test/fixtures/public/'
-                },
-                files: [
-                    { src: 'somesource', dest: 'somedest' },
-                    { src: 'someOthersource', dest: 'someOtherdest' }
-                ]
+                }
             }
         }
     });
