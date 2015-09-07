@@ -61,7 +61,7 @@ For example, if you need to use Semantic's Global reset and site components, you
 #### config
 Type: `String`
 
-The path to the semantic configuration file, that is used to define what components are going to be compiled
+The path to the semantic configuration file, that is used to define what components are going to be compiled. Alternatively, you can provide the configuration object inline.
 
 #### dest
 Type `String`
