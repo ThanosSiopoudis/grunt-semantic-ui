@@ -48,7 +48,7 @@ module.exports = function(grunt) {
         }
         else {
             // Copy our bundled one
-            grunt.file.copy('semantic-theme.config', baseDir + '/bower_components/semantic/src/theme.config');
+            grunt.file.copy(baseDir + '/semantic-theme.config', baseDir + '/bower_components/semantic/src/theme.config');
         }
 
         if (!options.dest || options.dest.length < 1) {
