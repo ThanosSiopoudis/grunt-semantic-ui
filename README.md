@@ -76,5 +76,6 @@ Type `String`
 The path to a semantic-ui theme configuration file.
 
 ## Release History
+ * 2015-09-09   v0.1.5  Fixed a bug with the default theme.config path
  * 2015-09-07   v0.1.4  Some bugfixes, cleaner output
  * 2015-09-04   v0.1.0  First release
