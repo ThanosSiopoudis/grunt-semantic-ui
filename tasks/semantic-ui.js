@@ -38,9 +38,9 @@ module.exports = function(grunt) {
             }
         }
 
-        if (this.theme && this.theme.length) {
-            if (grunt.file.exists(this.theme)) {
-                grunt.file.copy(this.theme, baseDir + '/bower_components/semantic/src/theme.config');
+        if (options.theme && options.theme.length) {
+            if (grunt.file.exists(options.theme)) {
+                grunt.file.copy(options.theme, baseDir + '/bower_components/semantic/src/theme.config');
             }
             else {
                 grunt.verbose.warn('Theme file not found, falling back to bundled one.');
