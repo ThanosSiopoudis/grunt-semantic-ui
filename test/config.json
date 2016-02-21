@@ -32,5 +32,8 @@
         "dropdown",
         "transition",
         "modal"
+    ],
+    "behaviors": [
+        "api"
     ]
 }

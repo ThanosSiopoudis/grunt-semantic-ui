@@ -125,6 +125,9 @@ module.exports = function(grunt) {
         };
 
         for (var type in config) {
+            if (type == 'behaviors') {
+                continue;
+            }
             config[type].forEach(getSemanticFilePath);
         }
         return files;
@@ -137,7 +140,7 @@ module.exports = function(grunt) {
         };
 
         for (var type in config) {
-            if (type !== 'modules') {
+            if (! (type == 'modules' || type == 'behaviors')) {
                 continue;
             }
             config[type].forEach(getSemanticFilePath);
