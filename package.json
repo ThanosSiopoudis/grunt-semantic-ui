@@ -27,8 +27,8 @@
     "bower": "^1.5.2"
   },
   "devDependencies": {
-    "bower": "^1.5.2",
-    "grunt": "^0.4.5",
+    "bower": "^1.7.9",
+    "grunt": "^1.0.1",
     "matchdep": "^0.3.0"
   },
   "dependencies": {
